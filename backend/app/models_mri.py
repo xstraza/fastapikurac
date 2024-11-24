@@ -30,7 +30,8 @@ class MRIPortfolioConstituent(SQLModel, table=True):
 
 class MRIAssetOutput(SQLModel, table=True):
     __tablename__ = "mri_asset_outputs"  # Explicit table name
-    date: datetime = Field(primary_key=True)
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    date: datetime = Field(nullable=False)
     domain: str = Field(max_length=255, nullable=False)
     asset_class: str = Field(max_length=255, nullable=False)  # Renamed from `class_`
     rpr: float = Field(nullable=False)
