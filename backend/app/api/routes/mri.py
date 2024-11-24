@@ -74,7 +74,7 @@ def get_portfolio(
     portfolio = session.get(MRIPortfolio, id)
     if not portfolio:
         raise HTTPException(status_code=404, detail="Portfolio not found")
-    if id is not "00000000-0000-0000-0000-000000000000" and portfolio.user_id != current_user.id:
+    if id != "00000000-0000-0000-0000-000000000000" and portfolio.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not enough permissions")
 
     constituents = session.exec(
@@ -116,7 +116,7 @@ def get_portfolio(
         name=portfolio.name,
         user_id=str(portfolio.user_id),
         assets=assets,
-        time_series=[{"Date": date, "Value": value} for date, value in aggregated_data]
+        time_series=[{"Date": date.timestamp(), "Value": value} for date, value in aggregated_data]
     )
 
 
